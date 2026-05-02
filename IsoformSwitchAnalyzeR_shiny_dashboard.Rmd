@@ -1,0 +1,150 @@
+---
+title: "IsoformSwitchAnalyzeR_project"
+output: html_document
+date: "2026-05-02"
+---
+
+
+#Step1: Generating mock dataset
+Generating a small,synthesic IsoformSwitchAnalyzeR-like dataset
+columns= genes, isoform, condition, expression, IF
+```{r}
+#structure of the dataframe
+genes <- c("TP53","BRCA1", "EGFR") #fixed three genes
+
+isoforms <- list(
+  TP53 = c("TP53_1","TP53_2","TP53_3"),
+  BRCA1 = c("BRCA1_1", "BRCA1_2"),
+  EGFR = c("EGFR_1","EGFR_2","EGFR_3") 
+)
+
+conditions <- c("control", "disease") #two conditions; control and disease
+
+
+
+
+#expression data
+set.seed(123)
+df <-data.frame()
+
+for (g in genes){
+  
+  for (cond in conditions){
+    iso_list <- isoforms[[g]] #list of isoforms in every gene
+    n_iso <- length(iso_list) #number of isoforms in each gene
+    
+    
+  #base expression pattern
+    if (g == "TP53") {
+      expr <- if (cond == "control") c(100, 20, 10) else c(30, 80, 20)
+    }
+    
+    if (g == "BRCA1") {
+      expr <- if (cond == "control") c(80, 40) else c(20, 100)
+    }
+    
+    if (g == "EGFR") {
+      expr <- if (cond == "control") c(50, 50, 10) else c(10, 90, 20)
+    }
+    temp <- data.frame(
+      gene = g,
+      isoform = iso_list,
+      condition = cond,
+      expression = expr
+    )
+    
+    df <- rbind(df, temp)
+  }
+}
+df
+```
+
+
+##Computing isoform fractions for each entry in the mock dataset
+```{r}
+library(dplyr)
+
+df <- df %>%
+  group_by(gene, condition) %>%
+  mutate(IF = expression / sum(expression)) %>%
+  ungroup()
+#groups the isoform entries by gene and condition and calculates the IF for each gene-condition pair
+
+#saving
+write.csv(df, "mock_isoform_switch_data.csv", row.names = FALSE)
+df
+```
+TP53- iso1 was dominant in control cases, switched to iso2 being dominant in disease cases
+BRCA1 - iso1 -> iso2 switch
+EGFR- both iso1 and 2 were dominant in control-> iso2 dominant in disease cases
+
+
+#Step2 : Isoform Switching plot
+A plot that would show how isoforms for a specific gene switch between control and disease conditions
+
+```{r}
+#strong isoform switch in TP53 so filtering out this gene
+
+library(dplyr)
+gene_data <- df %>% filter(gene=="TP53")
+
+#making isoform fraction bar plot, this will show the isoform fractions for each isoform in each condition for this gene
+library(ggplot2)
+ggplot(gene_data, aes(x=condition, y=IF, fill= isoform)) + 
+  geom_bar(stat="identity")+
+  labs(title= "Isoform usage for TP53",
+       x="Condition",
+       y="Isoform Fraction")+
+  theme_minimal()
+```
+The plot clearly shows, in control group iso1 dominates while in disease group iso2 dominates. Therefore, isoform switch has occurred.
+
+
+## Slope plot for isoform switch
+```{r}
+ggplot(gene_data, aes(x = condition, y = IF, group = isoform, color = isoform)) +
+  geom_line(size=1.2)+
+  geom_point(size=3)+
+  labs(title="Isoform Switching (TP53)" ,
+       x= "Isoform Fraction")+
+  theme_minimal()
+
+```
+
+## making a function for these slopes
+```{r}
+plot_switch <- function(data, gene_name) {
+  
+  gene_data <- data %>% filter(gene == gene_name)
+  
+  ggplot(gene_data, aes(x = condition, y = IF, group = isoform, color = isoform)) +
+    geom_line(size = 1.2) +
+    geom_point(size = 3) +
+    labs(title = paste("Isoform Switch:", gene_name),
+         y = "Isoform Fraction") +
+    theme_minimal()
+}
+
+#calling the function
+plot_switch(df, "BRCA1" )
+```
+
+
+
+
+```{r}
+Sys.which("git")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
