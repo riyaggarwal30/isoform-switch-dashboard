@@ -1,34 +1,73 @@
-# Isoform Switch Dashboard (Shiny App)
+# 🧬 Isoform Switch Dashboard (Shiny App)
 
-## 🚀 Live App
-Try the dashboard here:  
-https://riyaggarwal30.shinyapps.io/isoform-switch-dashboard/
+## 🔬 Project Overview
+This project is an interactive Shiny dashboard for exploring **isoform switching** patterns in gene expression data. It enables visualization of transcript-level changes across biological conditions to better understand alternative splicing events.
 
-## Overview
-This project is an interactive Shiny dashboard for exploring isoform switching in gene expression data. It allows users to visualize isoform-level expression changes across conditions and understand alternative splicing patterns.
+---
 
-## Biological Context
-Isoform switching refers to changes in the relative usage of different transcript isoforms of the same gene, often due to alternative splicing. This can lead to functional differences in proteins.
+## 🧠 Biological Motivation
+Genes can produce multiple transcript isoforms through alternative splicing.  
+Changes in the relative usage of these isoforms (isoform switching) can:
 
-## Features
-- Interactive visualization of isoform expression
-- Condition-wise comparison
-- Isoform fraction (IF) calculation
-- Clean Shiny-based UI
+- Alter protein function
+- Affect disease mechanisms
+- Influence cellular response to conditions
 
-## Screenshot
-![Dashboard](screenshot.png)
+This project helps explore these changes at an isoform level.
 
-## Tech Stack
+---
+
+## 📊 Key Features
+- Interactive exploration of isoform expression data
+- Calculation of Isoform Fraction (IF)
+- Condition-wise comparison of gene isoforms
+- Visualizations using ggplot2
+- Simple and responsive Shiny interface
+
+---
+
+## ⚙️ Methodology
+
+### 1. Data Processing
+Expression values are grouped by gene and condition.
+
+### 2. Isoform Fraction (IF)
+For each isoform:
+
+\[
+IF = \frac{expression}{\sum expression\ of\ all\ isoforms\ in\ a\ gene}
+\]
+
+### 3. Visualization
+- Bar plots / line plots (depending on UI)
+- Condition-based comparison
+
+---
+
+## 🛠 Tech Stack
 - R
 - Shiny
 - dplyr
 - ggplot2
 
-## How to Run
-1. Clone this repository
-2. Open `app.R` in RStudio
-3. Run the app:
+---
 
+## 📁 Project Structure
+- `app.R` → Main Shiny application
+- `mock_isoform_switch_data.csv` → Sample dataset
+- `IsoformSwitchAnalyzeR_shiny_dashboard.Rmd` → Analysis report
+- `.gitignore` → Excludes system files
+
+---
+
+## 🚀 Live Application
+Try the dashboard here:  
+👉 https://riyaggarwal30.shinyapps.io/isoform-switch-dashboard/
+
+---
+## 📸 Dashboard Preview
+![Dashboard Screenshot](screenshot.png)
+
+## ▶️ How to Run Locally
 ```r
 shiny::runApp()
