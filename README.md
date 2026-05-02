@@ -1,5 +1,9 @@
 # Isoform Switch Dashboard (Shiny App)
 
+## 🚀 Live App
+Try the dashboard here:  
+https://riyaggarwal30.shinyapps.io/isoform-switch-dashboard/
+
 ## Overview
 This project is an interactive Shiny dashboard for exploring isoform switching in gene expression data. It allows users to visualize isoform-level expression changes across conditions and understand alternative splicing patterns.
 
