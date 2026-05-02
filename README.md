@@ -16,6 +16,9 @@ Isoform switching refers to changes in the relative usage of different transcrip
 - Isoform fraction (IF) calculation
 - Clean Shiny-based UI
 
+## Screenshot
+![Dashboard](screenshot.png)
+
 ## Tech Stack
 - R
 - Shiny
